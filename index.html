@@ -1,36 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>领支付宝红包</title>
-	<meta charset="utf-8">
-	<meta name="wechat-enable-text-zoom-em" content="true">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="color-scheme" content="light dark">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover">
-	<link rel="shortcut icon" type="image/x-icon" href="//res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico" reportloaderror>
-	<link rel="mask-icon" href="//res.wx.qq.com/a/wx_fed/assets/res/MjliNWVm.svg" color="#4C4C4C" reportloaderror>
-	<link rel="apple-touch-icon-precomposed" href="//res.wx.qq.com/a/wx_fed/assets/res/OTE0YTAw.png" reportloaderror>
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<meta name="format-detection" content="telephone=no">
-	<meta name="referrer" content="origin-when-cross-origin">
-	<meta name="referrer" content="strict-origin-when-cross-origin">
-	<style>
-	    *{
-	        padding: 0;
-	        margin: 0;
-	    }
-	    
-	    /*背景图*/
-	    body {
-	        position: fixed;
-	        top: 0;
-	        width: 100%;
-	        height: 100%;
-	    }
-	    
-	    /* 遮罩层样式 */
+    <title>领支付宝红包</title>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="color-scheme" content="light dark">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover">
+    <link rel="shortcut icon" type="image/x-icon" href="//res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico" reportloaderror>
+    <style>
+        * { padding: 0; margin: 0; box-sizing: border-box; }
+
+        body {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .countdown-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .countdown-box .number {
+            font-size: 64px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .countdown-box .text {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
         .modal-overlay {
             display: none;
             position: fixed;
@@ -38,11 +50,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* 半透明黑色背景 */
+            background: rgba(0, 0, 0, 0.5);
             z-index: 1;
         }
 
-        /* 模态框样式 */
         .alertModal {
             display: none;
             position: fixed;
@@ -54,30 +65,168 @@
             z-index: 2;
             border-radius: 10px;
             width: 60%;
+            max-width: 300px;
         }
-        
-        /*模态框标题*/
-        .alertModal .h3-title{
+
+        .alertModal .h3-title {
             color: #ee4234;
             text-align: center;
             margin-bottom: 20px;
         }
-        
-        /*模态框文字*/
-        .alertModal p{
+
+        .alertModal p {
             font-size: 16px;
             line-height: 30px;
             text-align: center;
         }
-	   
-	</style>
+
+        .desktop-tip {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #fff8f7;
+            border-bottom: 1px solid #ee4234;
+            padding: 12px 40px 12px 16px;
+            color: #ee4234;
+            font-size: 14px;
+            line-height: 1.5;
+            z-index: 20;
+            text-align: center;
+        }
+
+        .desktop-tip .close-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 18px;
+            color: #999;
+        }
+
+        .desktop-card {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 360px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px 24px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            text-align: center;
+            z-index: 5;
+        }
+
+        .desktop-card h2 {
+            color: #ee4234;
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .desktop-card .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .code-box {
+            background: #f7f7f7;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .code-box .label {
+            color: #999;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .code-box .code {
+            color: #333;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-family: monospace;
+        }
+
+        .btn {
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 0;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6a4c, #ee4234);
+            color: #fff;
+        }
+
+        .qr-wrap {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #eee;
+        }
+
+        .qr-wrap .label {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        #qrCode {
+            display: inline-block;
+            padding: 8px;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body id="myBody">
-    
-    <!-- 模态框遮罩层 -->
+
+    <div id="countdownBox" class="countdown-box" style="display:none;">
+        <div id="countdownNumber" class="number">3</div>
+        <div class="text">秒后自动跳转支付宝</div>
+    </div>
+
+    <div id="desktopTip" class="desktop-tip">
+        电脑端建议使用手机浏览器打开，体验更佳。
+        <span class="close-btn" onclick="closeDesktopTip()">&times;</span>
+    </div>
+
+    <div id="desktopCard" class="desktop-card">
+        <h2>支付宝红包</h2>
+        <p class="subtitle">每日领红包，消费直接抵扣</p>
+
+        <div class="code-box">
+            <div class="label">搜索码</div>
+            <div id="codeDisplay" class="code"></div>
+        </div>
+
+        <button id="copyBtn" class="btn btn-primary">复制搜索码</button>
+
+        <div class="qr-wrap">
+            <div class="label">手机扫码领取</div>
+            <div id="qrCode"></div>
+        </div>
+    </div>
+
     <div id="modalOverlay" class="modal-overlay"></div>
 
-    <!-- 模态框 -->
     <div id="myModal" class="alertModal">
         <h3 class="h3-title">红包码复制成功</h3>
         <p>1. 打开支付宝APP</p>
@@ -85,156 +234,121 @@
         <p>3. 点击下方搜索领取</p>
         <p> - - - </p>
         <p>或者尝试一下</p>
-        <p> 👇︎👇︎👇︎ </p>
-        <p>右上角[···]在浏览器打开可直接跳到支付宝APP自动领取</p>
+        <p>右上角[...]在浏览器打开可直接跳到支付宝APP自动领取</p>
     </div>
-	
-	<script type="text/javascript">
-	
-        // 支付宝商家ID
-		const shareId ='2088222971225802';
-        // 红包码Token
-		const toKen ='19616423r8lcpdrtczety25Mzq';
-		// 红包码搜索码		
-		const hongbaoNum ='hEqF6H080v4';
-		
-        const ios_bg = 'ios.gif';
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script type="text/javascript">
+        const shareId = '2088222971225802';
+        const toKen = '19616423r8lcpdrtczety25Mzq';
+        const hongbaoNum = 'hEqF6H080v4';
+        const ios_bg = 'ios.gif';
         const android_bg = 'android.gif';
+        const DELAY_SECONDS = 3;
 
         disableScroll();
-        
-        // 设备判断
         detectMobileOperatingSystem();
-        
-		// 跳转
-		function jumpToAlipayApp(shareId, toKen) {
 
-			window.location.href = 'https://ulink.alipay.com/?scheme=alipays%3A%2F%2Fplatformapi%2Fstartapp%3FsaId%3D10000007%26clientVersion%3D3.7.0.0718%26qrcode%3Dhttps%253A%252F%252Frender.alipay.com%252Fp%252Fc%252Falipay-red-qrcode%252Fshared.html%253Fchannel%253Dsearch_pwd%2526shareId%253D' + shareId + '%2526token%253D' + toKen + '%2526campStr%253DkPPFvOxaCL3f85TiKss2wsBZgIjulHjG%2526sign%253DqsiVOoa7TuphryWxyBdONXsMTnE3jiIBvWeUs3yV1sw%253D%2526chInfo%253DDingtalk%2526c_stype%253Dsearch_pwd';
-		}
+        function jumpToAlipayApp(shareId, toKen) {
+            window.location.href = 'https://ulink.alipay.com/?scheme=alipays%3A%2F%2Fplatformapi%2Fstartapp%3FsaId%3D10000007%26clientVersion%3D3.7.0.0718%26qrcode%3Dhttps%253A%252F%252Frender.alipay.com%252Fp%252Fc%252Falipay-red-qrcode%252Fshared.html%253Fchannel%253Dsearch_pwd%2526shareId%253D' + shareId + '%2526token%253D' + toKen + '%2526campStr%253DkPPFvOxaCL3f85TiKss2wsBZgIjulHjG%2526sign%253DqsiVOoa7TuphryWxyBdONXsMTnE3jiIBvWeUs3yV1sw%253D%2526chInfo%253DDingtalk%2526c_stype%253Dsearch_pwd';
+        }
 
-		// 设备判断
-		function detectMobileOperatingSystem() {
+        function autoJump() {
+            const countdownBox = document.getElementById('countdownBox');
+            const countdownNumber = document.getElementById('countdownNumber');
+            let remaining = DELAY_SECONDS;
 
-		    const userAgent = navigator.userAgent;
-		    if (/Android/i.test(userAgent)) {
+            countdownBox.style.display = 'block';
+            countdownNumber.textContent = remaining;
 
-		    	// Android
-		        // 使用Android背景图
-                var body = document.querySelector('body');
-                body.style.background = "url('"+ android_bg +"') no-repeat";
-                body.style.backgroundSize = "100%";
-                
-                // 如果不是在微信内打开
-                if (navigator.userAgent.indexOf("MicroMessenger") !== -1) {
-                    
-                    // 微信浏览器
-                    // 获取<body>标签
-                    var body = document.getElementById("myBody");
-                    
-                    // 监听body的点击
-                    body.addEventListener("click", function() {
-                        
-                        // 复制红包码
+            const timer = setInterval(() => {
+                remaining -= 1;
+                if (remaining > 0) {
+                    countdownNumber.textContent = remaining;
+                } else {
+                    clearInterval(timer);
+                }
+            }, 1000);
+
+            setTimeout(() => {
+                jumpToAlipayApp(shareId, toKen);
+            }, DELAY_SECONDS * 1000);
+        }
+
+        function showDesktopUI() {
+            document.getElementById('desktopTip').style.display = 'block';
+            document.getElementById('desktopCard').style.display = 'block';
+            document.getElementById('codeDisplay').textContent = hongbaoNum;
+            document.getElementById('copyBtn').addEventListener('click', () => copyToClipboard(hongbaoNum));
+
+            if (typeof QRCode !== 'undefined') {
+                new QRCode(document.getElementById('qrCode'), {
+                    text: window.location.href,
+                    width: 160,
+                    height: 160,
+                    colorDark: '#000000',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+            }
+        }
+
+        function closeDesktopTip() {
+            document.getElementById('desktopTip').style.display = 'none';
+        }
+
+        function detectMobileOperatingSystem() {
+            const userAgent = navigator.userAgent;
+
+            if (/Android/i.test(userAgent)) {
+                document.querySelector('body').style.background = "url('" + android_bg + "') no-repeat";
+                document.querySelector('body').style.backgroundSize = "100%";
+
+                if (/MicroMessenger/i.test(userAgent)) {
+                    document.getElementById("myBody").addEventListener("click", function() {
                         copyToClipboard(hongbaoNum);
                     });
-                }else {
-                    
-                    // 非微信浏览器
-                    // 尝试跳转
-                    jumpToAlipayApp(shareId, toKen);
+                } else {
+                    autoJump();
                 }
-		    } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
-
-		    	// iOS
-		    	// 使用iOS背景图
-                var body = document.querySelector('body');
-                body.style.background = "url('"+ ios_bg +"') no-repeat";
-                body.style.backgroundSize = "100%";
-                
-		        // 获取<body>标签
-                var body = document.getElementById("myBody");
-                
-                // 自动跳
-                jumpToAlipayApp(shareId, toKen);
-            
-                // 监听body的点击
-                body.addEventListener("click", function() {
-                    
-                    // 跳转到支付宝APP
+            } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
+                document.querySelector('body').style.background = "url('" + ios_bg + "') no-repeat";
+                document.querySelector('body').style.backgroundSize = "100%";
+                document.getElementById("myBody").addEventListener("click", function() {
                     jumpToAlipayApp(shareId, toKen);
                 });
-		    } else {
+                autoJump();
+            } else {
+                document.querySelector('body').style.background = '#f5f5f5';
+                showDesktopUI();
+            }
+        }
 
-		    	// 未知操作系统
-		        // 使用Android的逻辑
-		        // 修改background属性中的URL
-                var elementToModify = document.querySelector('body');
-                elementToModify.style.background = "url('') no-repeat";
-                elementToModify.style.backgroundSize = "100%";
-                
-                // 如果不是在微信内打开
-                if (navigator.userAgent.indexOf("MicroMessenger") !== -1) {
-                    
-                    // 微信浏览器
-                    // 获取<body>标签
-                    var body = document.getElementById("myBody");
-                    
-                    // 监听body的点击
-                    body.addEventListener("click", function() {
-                        
-                        // 复制红包码
-                        copyToClipboard(hongbaoNum);
-                    });
-                }else {
-                    
-                    // 非微信浏览器
-                    // 尝试跳转
-                    jumpToAlipayApp(shareId, toKen);
-                }
-		    }
-		}
-		
-        // 禁止页面上下滑动
-		function disableScroll() {
-		    
+        function disableScroll() {
             document.addEventListener("touchmove", function(e) {
                 e.preventDefault();
             }, { passive: false });
         }
-        
-        // 打开模态框
+
         function openModal() {
             document.getElementById("modalOverlay").style.display = "block";
             document.getElementById("myModal").style.display = "block";
         }
-    
-        // 关闭模态框
+
         function closeModal() {
             document.getElementById("modalOverlay").style.display = "none";
             document.getElementById("myModal").style.display = "none";
         }
-        
-        // 复制红包码
+
         function copyToClipboard(textToCopy) {
-            
-            // 创建一个临时文本框元素
             const tempInput = document.createElement("input");
             tempInput.value = textToCopy;
             document.body.appendChild(tempInput);
-            
-            // 选择文本框的内容
             tempInput.select();
-            
-            // 尝试复制文本到剪贴板
             document.execCommand("copy");
-            
-            // 移除临时文本框元素
             document.body.removeChild(tempInput);
-            
-            // 复制完成，打开弹窗
             openModal();
         }
-	</script>
+    </script>
 </body>
 </html>
