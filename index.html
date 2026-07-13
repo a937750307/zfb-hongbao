@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>自动领支付宝红包</title>
+    <title>领支付宝红包</title>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,30 +17,6 @@
             width: 100%;
             height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        }
-
-        .countdown-box {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: #fff;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        .countdown-box .number {
-            font-size: 64px;
-            font-weight: 700;
-            line-height: 1;
-            margin-bottom: 8px;
-        }
-
-        .countdown-box .text {
-            font-size: 16px;
-            opacity: 0.9;
         }
 
         .modal-overlay {
@@ -198,11 +174,6 @@
 </head>
 <body id="myBody">
 
-    <div id="countdownBox" class="countdown-box" style="display:none;">
-        <div id="countdownNumber" class="number">3</div>
-        <div class="text">秒后自动跳转支付宝</div>
-    </div>
-
     <div id="desktopTip" class="desktop-tip">
         电脑端建议使用手机浏览器打开，体验更佳。
         <span class="close-btn" onclick="closeDesktopTip()">&times;</span>
@@ -254,22 +225,6 @@
         }
 
         function autoJump() {
-            const countdownBox = document.getElementById('countdownBox');
-            const countdownNumber = document.getElementById('countdownNumber');
-            let remaining = DELAY_SECONDS;
-
-            countdownBox.style.display = 'block';
-            countdownNumber.textContent = remaining;
-
-            const timer = setInterval(() => {
-                remaining -= 1;
-                if (remaining > 0) {
-                    countdownNumber.textContent = remaining;
-                } else {
-                    clearInterval(timer);
-                }
-            }, 1000);
-
             setTimeout(() => {
                 jumpToAlipayApp(shareId, toKen);
             }, DELAY_SECONDS * 1000);
