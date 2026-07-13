@@ -35,7 +35,7 @@
 
 例如扫码后得到：`QqCg19616423r8lcpdrtczety25Mzq`
 
-只需要提取 `19` 后面的部分：
+只需要提取 `19` 及其后面的部分：
 
 ```js
 const toKen = '19616423r8lcpdrtczety25Mzq';
