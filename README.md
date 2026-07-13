@@ -1,6 +1,6 @@
-# AlipayShangJin
+# 自动领支付宝红包
 
-手机浏览器跳转到支付宝 APP 自动领取赏金红包的静态页面。支持 Android、iOS 自动跳转，也支持电脑端展示搜索码与二维码。
+这是一个手机浏览器跳转到支付宝 APP 自动领取红包的静态页面。支持 Android、iOS 自动跳转，也支持电脑端展示搜索码与二维码，省去保存二维码、扫码、复制口令再粘贴的麻烦。
 
 ## 优势
 
@@ -80,3 +80,5 @@ const toKen = '19616423r8lcpdrtczety25Mzq';
 ```js
 const hongbaoNum = 'hEqF6H080v4';
 ```
+
+
