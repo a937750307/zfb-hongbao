@@ -252,27 +252,45 @@
             document.getElementById('desktopTip').style.display = 'none';
         }
 
+        function setBackgroundWhenLoaded(bg, onReady) {
+            const img = new Image();
+            img.onload = function() {
+                document.querySelector('body').style.background = "url('" + bg + "') no-repeat";
+                document.querySelector('body').style.backgroundSize = "100%";
+                if (onReady) onReady();
+            };
+            img.onerror = function() {
+                document.querySelector('body').style.background = "url('" + bg + "') no-repeat";
+                document.querySelector('body').style.backgroundSize = "100%";
+                if (onReady) onReady();
+            };
+            img.src = bg;
+        }
+
         function detectMobileOperatingSystem() {
             const userAgent = navigator.userAgent;
 
             if (/Android/i.test(userAgent)) {
-                document.querySelector('body').style.background = "url('" + android_bg + "') no-repeat";
-                document.querySelector('body').style.backgroundSize = "100%";
-
                 if (/MicroMessenger/i.test(userAgent)) {
+                    setBackgroundWhenLoaded(android_bg);
                     document.getElementById("myBody").addEventListener("click", function() {
                         copyToClipboard(hongbaoNum);
                     });
                 } else {
-                    autoJump();
+                    setBackgroundWhenLoaded(android_bg, function() {
+                        document.getElementById("myBody").addEventListener("click", function() {
+                            jumpToAlipayApp(shareId, toKen);
+                        });
+                        autoJump();
+                    });
                 }
             } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
-                document.querySelector('body').style.background = "url('" + ios_bg + "') no-repeat";
-                document.querySelector('body').style.backgroundSize = "100%";
-                document.getElementById("myBody").addEventListener("click", function() {
-                    jumpToAlipayApp(shareId, toKen);
+                setBackgroundWhenLoaded(ios_bg, function() {
+                    document.getElementById("myBody").addEventListener("click", function() {
+                        jumpToAlipayApp(shareId, toKen);
+                    });
+                    autoJump();
                 });
-                autoJump();
             } else {
                 document.querySelector('body').style.background = '#f5f5f5';
                 showDesktopUI();
